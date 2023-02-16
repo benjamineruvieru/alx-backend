@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """
 A module that provides a function for computing the start and end indexes of a range of items to return given a page number and page size.
 """
