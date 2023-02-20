@@ -1,11 +1,16 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+"""Simple pagination sample.
 """
-Module for simple pagination of a database of popular baby names.
-"""
-
 import csv
-import math
-from typing import List
+from typing import List, Tuple
+
+
+def index_range(page: int, page_size: int) -> Tuple[int, int]:
+    """Retrieves the index range from a given page and page size.
+    """
+    start = (page - 1) * page_size
+    end = start + page_size
+    return (start, end)
 
 
 class Server:
@@ -14,6 +19,8 @@ class Server:
     DATA_FILE = "Popular_Baby_Names.csv"
 
     def __init__(self):
+        """Initializes a new Server instance.
+        """
         self.__dataset = None
 
     def dataset(self) -> List[List]:
@@ -28,16 +35,12 @@ class Server:
         return self.__dataset
 
     def get_page(self, page: int = 1, page_size: int = 10) -> List[List]:
-        """Returns the appropriate page of the dataset (i.e. the correct list of rows)
-           based on the given page and page_size values.
+        """Retrieves a page of data.
         """
-        assert isinstance(page, int) and page > 0, "Page should be a positive integer"
-        assert isinstance(page_size, int) and page_size > 0, "Page size should be a positive integer"
-        
-        dataset = self.dataset()
+        assert type(page) == int and type(page_size) == int
+        assert page > 0 and page_size > 0
         start, end = index_range(page, page_size)
-
-        if start > len(dataset):
+        data = self.dataset()
+        if start > len(data):
             return []
-        
-        return dataset[start:end]
+        return data[start:end]
